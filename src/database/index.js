@@ -15,10 +15,10 @@ class Database {
     this.connection = new Sequelize(dbConfig);
 
     models.map(model => model.init(this.connection));
-    models.map(
-      model => model.associate() && model.associate(this.connection.models)
-    );
+    // models.map(
+    //   model => model.associate() && model.associate(this.connection.models)
+    // );
   }
 }
 
-export default Database;
+export default new Database();
