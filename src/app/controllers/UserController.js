@@ -1,6 +1,7 @@
 import * as Yup from 'yup';
 
 import User from '../models/User';
+import File from '../models/File';
 
 class UserController {
   async store(req, res) {
@@ -30,6 +31,13 @@ class UserController {
     const { id } = req.params;
     const user = await User.findByPk(id, {
       attributes: ['id', 'name', 'email', 'created_at', 'updated_at'],
+      include: [
+        {
+          model: File,
+          as: 'avatar',
+          attributes: ['id', 'name', 'path', 'url'],
+        },
+      ],
     });
 
     if (!user) {
@@ -52,34 +60,45 @@ class UserController {
       confirmPassword: Yup.string().when('password', (password, field) =>
         password ? field.required().oneOf([Yup.ref('password')]) : field
       ),
+      avatar_id: Yup.number(),
     });
 
     if (!(await schema.isValid(req.body))) {
       return res.status(400).json({ error: 'Failed validation.' });
     }
 
-    const { email, oldPassword } = req.body;
     const user = await User.findByPk(req.params.id);
 
     if (!user) {
       return res.status(400).json({ error: 'User not found.' });
     }
 
-    if (email !== user.email) {
-      const userExists = await User.findOne({ where: { email } });
+    if (req.body.email && req.body.email !== user.email) {
+      const userExists = await User.findOne({
+        where: { email: req.body.email },
+      });
 
       if (userExists) {
         return res.status(400).json({ error: 'User already exists.' });
       }
     }
 
-    if (oldPassword && !(await user.checkPassword(oldPassword))) {
+    if (
+      req.body.oldPassword &&
+      !(await user.checkPassword(req.body.oldPassword))
+    ) {
       return res.status(401).json({ error: 'Password does not match.' });
     }
 
-    const { id, name } = await user.update(req.body);
+    const file = await File.findByPk(req.body.avatar_id);
 
-    return res.json({ id, name, email });
+    if (!file) {
+      return res.status(400).json({ error: 'File not found.' });
+    }
+
+    const { id, name, email, avatar_id } = await user.update(req.body);
+
+    return res.json({ id, name, email, avatar_id });
   }
 
   async delete(req, res) {
