@@ -2,6 +2,8 @@ import * as Yup from 'yup';
 
 import User from '../models/User';
 import File from '../models/File';
+import Category from '../models/Category';
+import Group from '../models/Group';
 
 class UserController {
   async store(req, res) {
@@ -36,6 +38,16 @@ class UserController {
           model: File,
           as: 'avatar',
           attributes: ['id', 'name', 'path', 'url'],
+        },
+        {
+          model: Category,
+          as: 'category',
+          attributes: ['id', 'name'],
+        },
+        {
+          model: Group,
+          as: 'group',
+          attributes: ['id', 'name'],
         },
       ],
     });
