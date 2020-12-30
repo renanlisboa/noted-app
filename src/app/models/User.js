@@ -23,9 +23,19 @@ class User extends Model {
   }
 
   static associate(models) {
-    this.belongsTo(models.File, {
-      foreignKey: 'avatar_id',
+    this.hasOne(models.File, {
+      foreignKey: 'user_id',
       as: 'avatar',
+    });
+
+    this.hasMany(models.Category, {
+      foreignKey: 'user_id',
+      as: 'category',
+    });
+
+    this.hasMany(models.Group, {
+      foreignKey: 'user_id',
+      as: 'group',
     });
   }
 

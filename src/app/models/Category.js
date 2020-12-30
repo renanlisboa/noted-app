@@ -1,17 +1,10 @@
 import Sequelize, { Model } from 'sequelize';
 
-class File extends Model {
+class Category extends Model {
   static init(sequelize) {
     super.init(
       {
         name: Sequelize.STRING,
-        path: Sequelize.STRING,
-        url: {
-          type: Sequelize.VIRTUAL,
-          get() {
-            return `${process.env.APP_URL}/files/${this.path}`;
-          },
-        },
       },
       { sequelize }
     );
@@ -24,7 +17,12 @@ class File extends Model {
       foreignKey: 'user_id',
       as: 'user',
     });
+
+    this.hasMany(models.Group, {
+      foreignKey: 'category_id',
+      as: 'group',
+    });
   }
 }
 
-export default File;
+export default Category;
