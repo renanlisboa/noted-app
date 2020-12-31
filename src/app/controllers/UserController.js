@@ -1,4 +1,7 @@
 import * as Yup from 'yup';
+import fs from 'fs';
+import { resolve } from 'path';
+import { promisify } from 'util';
 
 import User from '../models/User';
 import File from '../models/File';
@@ -121,8 +124,19 @@ class UserController {
       return res.status(400).json({ error: 'User not found.' });
     }
 
+    const userAvatar = await File.findOne({
+      where: { user_id: req.userId },
+    });
+
+    if (userAvatar) {
+      promisify(fs.unlink)(
+        resolve(__dirname, '..', '..', '..', 'tmp', 'uploads', userAvatar.path)
+      );
+
+      await userAvatar.destroy();
+    }
+
     await user.destroy();
-    await user.save();
 
     return res.status(204).send();
   }

@@ -23,6 +23,7 @@ routes.put('/users/:id', UserController.update);
 routes.delete('/users/:id', UserController.delete);
 
 routes.post('/files', upload.single('file'), FileController.store);
+routes.delete('/files/:id', FileController.delete);
 
 routes.post('/categories', CategoryController.store);
 routes.get('/categories', CategoryController.index);
