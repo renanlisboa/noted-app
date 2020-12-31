@@ -36,12 +36,6 @@ class GroupController {
       return res.status(400).json({ error: 'Failed validation.' });
     }
 
-    const user = await User.findByPk(req.userId);
-
-    if (!user) {
-      return res.status(400).json({ error: 'User not found.' });
-    }
-
     const category = await Category.findByPk(req.body.category_id);
 
     if (!category) {
@@ -71,12 +65,6 @@ class GroupController {
       return res.status(400).json({ error: 'Failed validation.' });
     }
 
-    const user = await User.findByPk(req.userId);
-
-    if (!user) {
-      return res.status(400).json({ error: 'User not found.' });
-    }
-
     if (req.body.category_id) {
       const category = await Category.findByPk(req.body.category_id);
 
@@ -97,12 +85,6 @@ class GroupController {
   }
 
   async delete(req, res) {
-    const user = await User.findByPk(req.userId);
-
-    if (!user) {
-      return res.status(400).json({ error: 'User not found.' });
-    }
-
     const group = await Group.findByPk(req.params.id);
 
     if (!group) {

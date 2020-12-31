@@ -35,12 +35,6 @@ class CategoryController {
       return res.status(400).json({ error: 'Failed validation.' });
     }
 
-    const user = await User.findByPk(req.userId);
-
-    if (!user) {
-      return res.status(400).json({ error: 'User not found.' });
-    }
-
     const category = await Category.findOne({ where: { name: req.body.name } });
 
     if (category) {
@@ -63,12 +57,6 @@ class CategoryController {
       return res.status(400).json({ error: 'Failed validation.' });
     }
 
-    const user = await User.findByPk(req.userId);
-
-    if (!user) {
-      return res.status(400).json({ error: 'User not found.' });
-    }
-
     const category = await Category.findByPk(req.params.id);
 
     if (!category) {
@@ -81,12 +69,6 @@ class CategoryController {
   }
 
   async delete(req, res) {
-    const user = await User.findByPk(req.userId);
-
-    if (!user) {
-      return res.status(400).json({ error: 'User not found.' });
-    }
-
     const category = await Category.findByPk(req.params.id);
 
     if (!category) {
