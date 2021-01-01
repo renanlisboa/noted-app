@@ -7,34 +7,11 @@ import User from '../models/User';
 import File from '../models/File';
 import Category from '../models/Category';
 import Group from '../models/Group';
+import Note from '../models/Note';
 
 class UserController {
-  async store(req, res) {
-    const schema = Yup.object().shape({
-      name: Yup.string().required(),
-      email: Yup.string().email().required(),
-      password: Yup.string().required().min(6),
-    });
-
-    if (!(await schema.isValid(req.body))) {
-      return res.status(400).json({ error: 'Failed validation.' });
-    }
-
-    const { email } = req.body;
-    const user = await User.findOne({ where: { email } });
-
-    if (user) {
-      return res.status(400).json({ error: 'User already exists.' });
-    }
-
-    const { id, name } = await User.create(req.body);
-
-    return res.json({ id, name, email });
-  }
-
-  async show(req, res) {
-    const { id } = req.params;
-    const user = await User.findByPk(id, {
+  async index(req, res) {
+    const user = await User.findAll({
       attributes: ['id', 'name', 'email', 'created_at', 'updated_at'],
       include: [
         {
@@ -50,6 +27,69 @@ class UserController {
         {
           model: Group,
           as: 'group',
+          attributes: ['id', 'name'],
+        },
+        {
+          model: Note,
+          as: 'note',
+          attributes: ['id', 'name'],
+        },
+      ],
+    });
+
+    if (!user) {
+      return res.status(400).json({ error: 'User not found.' });
+    }
+
+    return res.json(user);
+  }
+
+  async store(req, res) {
+    const schema = Yup.object().shape({
+      name: Yup.string().required(),
+      email: Yup.string().email().required(),
+      password: Yup.string().required().min(6),
+      admin: Yup.string(),
+    });
+
+    if (!(await schema.isValid(req.body))) {
+      return res.status(400).json({ error: 'Failed validation.' });
+    }
+
+    const { email } = req.body;
+    const user = await User.findOne({ where: { email } });
+
+    if (user) {
+      return res.status(400).json({ error: 'User already exists.' });
+    }
+
+    const { id, name, admin } = await User.create(req.body);
+
+    return res.json({ id, name, email, admin });
+  }
+
+  async show(req, res) {
+    const user = await User.findByPk(req.params.id, {
+      attributes: ['id', 'name', 'email', 'created_at', 'updated_at'],
+      include: [
+        {
+          model: File,
+          as: 'avatar',
+          attributes: ['id', 'name', 'path', 'url'],
+        },
+        {
+          model: Category,
+          as: 'category',
+          attributes: ['id', 'name'],
+        },
+        {
+          model: Group,
+          as: 'group',
+          attributes: ['id', 'name'],
+        },
+        {
+          model: Note,
+          as: 'note',
           attributes: ['id', 'name'],
         },
       ],
