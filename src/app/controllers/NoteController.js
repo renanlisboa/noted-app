@@ -55,26 +55,6 @@ class NoteController {
     return res.json(newNote);
   }
 
-  async show(req, res) {
-    const note = await Note.findByPk(req.params.id, {
-      attributes: ['id', 'name', 'created_at', 'updated_at'],
-      include: [
-        {
-          model: User,
-          as: 'user',
-          attributes: ['id', 'name', 'email'],
-        },
-        {
-          model: Group,
-          as: 'group',
-          attributes: ['id', 'name'],
-        },
-      ],
-    });
-
-    return res.json(note);
-  }
-
   async update(req, res) {
     const schema = Yup.object().shape({
       name: Yup.string(),

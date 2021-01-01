@@ -40,7 +40,6 @@ routes.delete('/groups/:id', GroupController.delete);
 
 routes.get('/notes', NoteController.index);
 routes.post('/notes', NoteController.store);
-routes.get('/notes/:id', NoteController.show);
 routes.put('/notes/:id', NoteController.update);
 routes.delete('/notes/:id', NoteController.delete);
 
