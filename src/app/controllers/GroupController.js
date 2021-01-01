@@ -3,6 +3,7 @@ import * as Yup from 'yup';
 import User from '../models/User';
 import Category from '../models/Category';
 import Group from '../models/Group';
+import Note from '../models/Note';
 
 class GroupController {
   async index(req, res) {
@@ -18,6 +19,11 @@ class GroupController {
         {
           model: Category,
           as: 'category',
+          attributes: ['id', 'name'],
+        },
+        {
+          model: Note,
+          as: 'note',
           attributes: ['id', 'name'],
         },
       ],

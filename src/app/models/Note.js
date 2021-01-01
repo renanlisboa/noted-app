@@ -1,6 +1,6 @@
 import Sequelize, { Model } from 'sequelize';
 
-class Group extends Model {
+class Note extends Model {
   static init(sequelize) {
     super.init(
       {
@@ -13,21 +13,16 @@ class Group extends Model {
   }
 
   static associate(models) {
-    this.belongsTo(models.Category, {
-      foreignKey: 'category_id',
-      as: 'category',
+    this.belongsTo(models.Group, {
+      foreignKey: 'group_id',
+      as: 'group',
     });
 
     this.belongsTo(models.User, {
       foreignKey: 'user_id',
       as: 'user',
     });
-
-    this.hasMany(models.Note, {
-      foreignKey: 'group_id',
-      as: 'note',
-    });
   }
 }
 
-export default Group;
+export default Note;
