@@ -16,7 +16,7 @@ export default createGlobalStyle`
     background: #fff;
     -webkit-font-smoothing: antialiased !important;
   }
-  
+
   /* h1, h2, h3, h4, h5, h6, p, span, a {
     color: #222;
   } */
