@@ -1,0 +1,13 @@
+{
+  "short_name": "Noted",
+  "name": "Noted App",
+  "icons": [
+    {
+      "src": "favicon.ico",
+      "sizes": "16x16",
+      "type": "image/ico"
+    }
+  ],
+  "start_url": "./index.html",
+  "display": "standalone"
+}
