@@ -99,6 +99,15 @@ export const Form = styled.form`
       background: var(--button-hover);
     }
   }
+
+  p {
+    display: ${props => (props.error ? 'flex' : 'none')};
+    color: var(--error);
+    margin-top: 16px;
+    text-align: center;
+    font-size: 14px;
+    line-height: 16px;
+  }
 `;
 
 export const FieldGroup = styled.div`

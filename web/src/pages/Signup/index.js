@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import { FiArrowLeft, FiMail, FiLock, FiUser } from 'react-icons/fi';
 
+import api from '../../services/api';
+
 import Container from '../../components/Container';
 import {
   Header,
@@ -17,9 +19,34 @@ import {
 import logo from '../../assets/logo.svg';
 
 export default class Landing extends Component {
-  state = {};
+  state = {
+    name: '',
+    email: '',
+    password: '',
+    error: null,
+  };
+
+  handleSubmit = async e => {
+    e.preventDefault();
+
+    const { name, email, password } = this.state;
+
+    try {
+      await api.post('users', {
+        name,
+        email,
+        password,
+      });
+    } catch (err) {
+      if (err) {
+        this.setState({ error: true });
+      }
+    }
+  };
 
   render() {
+    const { name, email, password, error } = this.state;
+
     return (
       <Container>
         <Header>
@@ -42,7 +69,7 @@ export default class Landing extends Component {
               in less time.
             </p>
           </CallToAction>
-          <Form>
+          <Form onSubmit={this.handleSubmit} error={error}>
             <FieldGroup>
               <UsernameField>
                 <FiUser />
@@ -51,6 +78,11 @@ export default class Landing extends Component {
                   name="name"
                   autoComplete="name"
                   placeholder="Name"
+                  required
+                  value={name}
+                  onChange={e => {
+                    this.setState({ name: e.target.value });
+                  }}
                 />
               </UsernameField>
               <MailField>
@@ -60,6 +92,11 @@ export default class Landing extends Component {
                   name="email"
                   autoComplete="email"
                   placeholder="E-mail"
+                  required
+                  value={email}
+                  onChange={e => {
+                    this.setState({ email: e.target.value });
+                  }}
                 />
               </MailField>
               <PasswordField>
@@ -69,6 +106,11 @@ export default class Landing extends Component {
                   name="password"
                   autoComplete="password"
                   placeholder="Password"
+                  required
+                  value={password}
+                  onChange={e => {
+                    this.setState({ password: e.target.value });
+                  }}
                 />
               </PasswordField>
             </FieldGroup>
@@ -83,6 +125,7 @@ export default class Landing extends Component {
               <Link to="/signup">Privacy</Link>
             </span>
             <button type="submit">CREATE ACCOUNT</button>
+            <p>Validation failed.</p>
           </Form>
         </FormContainer>
       </Container>
