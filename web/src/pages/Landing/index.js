@@ -18,7 +18,7 @@ export default class Landing extends Component {
           <Container>
             <Header>
               <img src={logo} alt="logo" />
-              <Link to="/login">Log in</Link>
+              <Link to="/signin">Log in</Link>
             </Header>
             <Section>
               <h1>

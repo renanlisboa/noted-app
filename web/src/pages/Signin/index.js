@@ -16,7 +16,7 @@ import {
 
 import logo from '../../assets/logo.svg';
 
-export default class Landing extends Component {
+export default class Signin extends Component {
   state = {};
 
   render() {

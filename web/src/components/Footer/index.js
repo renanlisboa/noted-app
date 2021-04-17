@@ -33,7 +33,7 @@ export default class Landing extends Component {
               <p>Links</p>
               <Link to="/">Mobile App</Link>
               <Link to="/">Github</Link>
-              <Link to="/login">Log in</Link>
+              <Link to="/signin">Log in</Link>
               <Link to="/signup">Sign up</Link>
             </Links>
             <Links>
