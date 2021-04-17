@@ -7,7 +7,8 @@
   "license": "MIT",
   "scripts": {
     "dev": "nodemon src/server.js",
-    "dev:debug": "nodemon --inspect src/server.js"
+    "dev:debug": "nodemon --inspect src/server.js",
+    "docker:db": "docker run --name noted_db -p 5432:5432 -e POSTGRES_PASSWORD=mysecretpassword -d postgres"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
