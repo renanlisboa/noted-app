@@ -13,7 +13,7 @@ export const FooterContainer = styled.div`
   align-items: center;
   justify-content: space-between;
 
-  max-width: 1100px;
+  max-width: 960px;
   margin: 0 auto;
 `;
 
