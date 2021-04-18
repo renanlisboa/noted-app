@@ -27,8 +27,10 @@
           "warn",
           { "extensions": [".jsx", ".js"] }
         ],
+        "react/require-default-props": "off",
         "import/prefer-default-export": "off",
         "react/state-in-constructor": "off",
-        "react/static-property-placement": "off"
+        "react/static-property-placement": "off",
+        "react/jsx-props-no-spreading": "off"
     }
 }
